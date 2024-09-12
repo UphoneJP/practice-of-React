@@ -1,0 +1,99 @@
+$npm create vite@latest
+>name/package/framework/variantを選択
+>$cd プロジェクト名
+>$npm install
+>$npm run dev(localhostを開く)でアプリ起動
+
+①index.htmlに関して
+    <!-- libディレクトリ作成（ファイル3つ） -->
+    <head>
+        <script src="./libs/babel-standalone.js"></script>
+        <script src="./libs/react-dom.development.js"></script>
+        <script src="./libs/react.development.js"></script>
+    </head>
+
+    <!-- 表示するdivを作成し、idをつける -->
+    <div id="app"></div>
+
+    <!-- scriptでdiv内に表示する内容を記述 -->
+    <script type="text/babel">
+        const square = (num) => {
+            return num * num
+        }
+
+        const app = document.querySelector('#app');
+        const root = ReactDOM.createRoot(app);
+        root.render(<h1>hello</h1>);
+        root.render(<Box />);           
+        root.render(<Box
+            color="red"
+            num={123}
+            bool
+            fn={square}
+            obj={{name:Koji, age:37}}
+        />);    // props（プロパティ）を記入 
+        root.render(<Box>{"kodomo"}</Box>) 
+    </script>
+
+
+
+②componentsにBox.jsxファイルを作成（コンポーネント化）
+    import { fragment, useState } from "react";
+    import "../css/style.css";
+
+    const clickEvent = () => {
+        alert('clicked!!!');
+    }
+<!--  -->
+    //propsを分割代入し、必要に応じてデフォルト値を設定する。
+    //分割代入しない場合はpropsを引数におき、props.color等オブジェクトとして扱う
+    const Box = ({color = blue, num, bool, fn, obj, children}) =>{
+        let [val, setVal] = useState();
+        <!-- useState(初期値)は配列を返す。第一引数は値、第二引数は更新用関数 -->
+        return(
+             <fragment key="">  <!-- key以外の属性は不可。fragmentは"<>"と"</>"に省略可 -->
+                <div className={`box ${color}`>
+                    <h1>Title</h1>
+                    <ul>    <!--  エメット「ul>li{item-$}*5」 -->
+                        <li>item-1, {num}</li>
+                        <li>item-2, {bool ? 'true' : 'false'}</li>
+                        <li>item-3, {fn(3)}</li>
+                        <li>item-4, {obj.name + obj.age}</li>
+                        <li>item-5, {children}</li>   <!-- JavaScript挿入は{}を使う。文は不可。 -->
+                    </ul>
+                    <button onClick="clickEvent">
+                        クリックイベントはclickEventr()の()はつけない。関数の実行はしない
+                    </button>
+                    <!-- onChangeは内容が変更されたら発火 -->
+                    <!-- onChange={(e)=>console.log(e.target.value)}とすると内容変更されるたびにinputの内容をeで取得できる -->
+                    <!-- onFocusはinputにカーソルが当たったら発火 -->
+                    <!-- onBlurはinputからカーソルが外れたら発火 -->
+                    <!-- onMouseEnterはホバーインで発火 -->
+                    <!-- onMouseLeaveはホバーアウトで発火 -->
+                </div>
+                <input
+                    type="text"
+                    onChange={e => {
+                    setVal(e.target.value)
+                }}/> = {val}
+            </fragment> <!-- fragmentとはreturnでは１つのルートしか返せないため、devタグをつけたくない等の理由がある場合に代替的に使用するもの。表示時には消される。 -->
+        )
+    }
+
+
+③cssディレクトリ内にstyle.cssファイルを作成
+.box.blue {
+    padding: 8px;
+    border: 1px solid blue;
+    border-radius: 4px;
+}
+.box.red {
+    padding: 8px;
+    border: 1px solid red;
+    border-radius: 4px;
+}
+.box.green {
+    padding: 8px;
+    border: 1px solid green;
+    border-radius: 4px;
+}
