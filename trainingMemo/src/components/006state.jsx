@@ -1,6 +1,7 @@
 import { useState } from "react";
 
-const AboutState01 = () => {
+const AboutState = {};
+AboutState.A = () => {
     let [val, setVal] = useState();
         //  useState(初期値)は配列を返す。第一引数は値、第二引数は更新用関数 
     return (
@@ -14,7 +15,7 @@ const AboutState01 = () => {
     );
 }
 
-const AboutState02 = () => {
+AboutState.B = () => {
     let [count, setCount] = useState();
     const countUp = () => {
         setCount(count + 1);
@@ -35,7 +36,7 @@ const AboutState02 = () => {
     );
 }
 
-const AboutState03 = () => {
+AboutState.C = () => {
     const personObj = {name:"Tom", age:18};
     const [person, setPerson] = useState(personObj);
     const changeName = (e) => setPerson({...person, name:e.target.value});
@@ -50,7 +51,58 @@ const AboutState03 = () => {
         <div>
             <button onClick={reset}>リセット</button>
         </div>
+    </>); 
+}
+
+AboutState.D = () =>{
+    const Arr = [1, 2, 3, 4, 5];
+    const [nums, setNums] = useState(Arr);
+    const shuffle = () =>{
+        setNums((Arr)=>{
+            const newArr = [];
+            for(let i=0;i<5;i++){
+                const randomNum = Math.floor(Math.random()*Arr.length);
+                newArr.push(Arr.splice(randomNum, 1));
+            }
+            return newArr
+        });
+    }
+    return ()=> (<>
+        <h1>{nums}</h1>
+        <button onClick={shuffle}>shuffle</button>
     </>);
 }
 
-export {AboutState01, AboutState02, AboutState03}
+
+AboutState.E = () => {
+    const [toggle, setToggle] = useState(true);
+    const [countA, setCountA] = useState(0);
+    const [countB, setCountB] = useState(0);
+    const toggleFun = () => {
+        setToggle(toggle => !toggle)
+    }
+    return (
+        <>
+            <button onClick={toggleFun}>toggle</button>
+            {toggle?
+                <CountUpdate title="A" count={countA} setCount={setCountA}/> 
+                :<CountUpdate title="B" count={countB} setCount={setCountB}/>
+            }
+        </>
+    );
+};
+const CountUpdate = ({title, count, setCount}) => {
+    const countUp = () => setCount(count => count+=1);
+    const countDown = () => setCount(count => count-=1);
+    return (
+        <>
+            <h3>カウント{title}:{count}</h3>
+            <button onClick={countUp}>+</button>
+            <button onClick={countDown}>-</button>
+        </>
+    );
+};
+
+
+
+export {AboutState}

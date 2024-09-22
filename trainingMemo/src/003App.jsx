@@ -1,7 +1,7 @@
 import { fragment } from "react";
 
 import {Box} from './components/005components'
-import {AboutState01, AboutState02, AboutState03} from "./components/006state"
+import {AboutState} from "./components/006state"
             
 const App = () => {
     const square = (num) => num * num;
@@ -28,9 +28,12 @@ const App = () => {
 
             {/* state */}
             <div>
-                <AboutState01 / >
-                <AboutState02 / >
-                <AboutState03 / >
+                <AboutState.A / >
+                <AboutState.B / >
+                <AboutState.C / >
+                <AboutState.D / >
+                <AboutState.E / >
+                <AboutState.F / >
             </div>
 
 
